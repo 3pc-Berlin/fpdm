@@ -96,11 +96,11 @@
 		
 		$dircmd=fix_path(dirname(__file__));
 		
-		if(file_exists("$dircmd/$cmd")) {
+		if(!empty(sprintf("which %s", escapeshellarg($cmd)))) {
 		
 			$pdf_out=FPDM_CACHE."pdf_flatten.pdf";
 			
-			$cmdline="$dircmd/$cmd \"$pdf_file\" fill_form \"$fdf_file\" output \"$pdf_out\" $output_modes $security"; //direct to ouptut	
+			$cmdline="pdftk \"$pdf_file\" fill_form \"$fdf_file\" output \"$pdf_out\" $output_modes $security"; //direct to ouptut
 
 			//echo htmlentities("$cmdline , $descriptorspec, $cwd, $env");
 
