@@ -18,9 +18,9 @@
 //
 
 $__tmp = version_compare(phpversion(), "5") == -1 ? array('FilterLZW') : array('FilterLZW', false);
-if (!call_user_func_array('class_exists', $__tmp)) {
+if (!class_exists(...$__tmp)) {
 
-	if(isset($FPDM_FILTERS)) array_push($FPDM_FILTERS,"LZWDecode");
+    if(isset($FPDM_FILTERS)) $FPDM_FILTERS[] = "LZWDecode";
 
     class FilterLZW {
         

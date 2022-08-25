@@ -22,8 +22,8 @@ if (!call_user_func_array('class_exists', $__tmp)) {
         /**
          * Method to decode GZIP compressed data.
          *
-         * @param string data    The compressed data.
-         * @return uncompressed data
+         * @param string  $data  data    The compressed data.
+         * @return false|string uncompressed data
          */
         function decode($data) {
     
@@ -46,4 +46,3 @@ if (!call_user_func_array('class_exists', $__tmp)) {
 
 }
 //unset $__tmp;
-?>
