@@ -88,19 +88,20 @@
 		$err='';
 		$success=0;
 
-		if(is_windows()) {
-			$cmd="pdftk.exe"; //For windows
-		}else{
-			$cmd="pdftk"; //For linux and mac
-		}
-		
-		$dircmd=fix_path(dirname(__file__));
-		
-		if(!empty(sprintf("which %s", escapeshellarg($cmd)))) {
-		
-			$pdf_out=FPDM_CACHE."pdf_flatten.pdf";
-			
-			$cmdline="pdftk \"$pdf_file\" fill_form \"$fdf_file\" output \"$pdf_out\" $output_modes $security"; //direct to ouptut
+        if(is_windows()) {
+            $cmd="pdftk.exe"; //For windows
+        }else{
+            $cmd="pdftk"; //For linux and mac
+        }
+
+        $dircmd=fix_path(dirname(__file__));
+
+        //check also for local installation
+        if(!empty($pdftk=trim(shell_exec(sprintf("which %s", $cmd))))||file_exists($pdftk = trim(shell_exec("eval echo ~$(whoami)")) . "/home/*/.local/bin/" . $cmd)) {
+
+            $pdf_out=FPDM_CACHE."pdf_flatten.pdf";
+
+            $cmdline = $pdftk . " \"$pdf_file\" fill_form \"$fdf_file\" output \"$pdf_out\" $output_modes $security"; //direct to ouptut
 
 			//echo htmlentities("$cmdline , $descriptorspec, $cwd, $env");
 
