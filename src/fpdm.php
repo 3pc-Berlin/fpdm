@@ -2149,61 +2149,61 @@ if (!call_user_func_array('class_exists', $__tmp)) {
 		 *@access public
 		 *@return array $fields the data of the fields parsed
          */
-		function parseFDFContent(){
-		//-------------------------
-	   
-		   $content=$this->fdf_content;
-		   $content=$this->_protectContentValues($content);//protect ( ) that may be in value or names...
-		  
-		   if($this->verbose) $this->dumpEntries($content,"FDF parse");
-		   
-		   //..so that this regexp can do its job without annoyances 
-			if(preg_match_all("/(T|V)\s*\(([^\)]+)\)\s*\/(T|V)\s*\(([^\)]+)\)/", $content,$matches, PREG_PATTERN_ORDER)) {
-	   
-				$fMax=count($matches[0]);
-				$fields=array();
-				for($f=0;$f<$fMax;$f++) {
-					$value='';
-					$name='';
-					if($matches[1][$f]=="V") {
-						$value=$matches[2][$f];
-						if($matches[3][$f]=="T") 
-							$name=$matches[4][$f];
-						else 
-							$this->Error("Field $f ignored , incomplete field declaration, name is expected");
-					} else {
-						if($matches[1][$f]=="T") {
-							$name=$matches[2][$f];
-							if($matches[3][$f]=="V") 
-								$value=$matches[4][$f];
-							else 
-								$this->Error("Field $f ignored , incomplete field declaration, value is expected");
-						} else 
-							$this->Error("Field $f ignored , Invalid field keys ({$matches[0][$f]})");
-					}
-					if($name!='') {
-						if(array_key_exists($name,$fields)) 
-							 $this->Error("Field $f ignored , already defined");
-						else {
-							$name=$this->_unprotectContentValues($name);
-							$value=$this->_unprotectContentValues($value);
-							if($this->verbose) 
-								$this->dumpContent("FDF field [$name] has its value set to \"$value\"");
-							$fields[$name]=$value;
-						}
-					} else 
-						$this->Error("Field $f ignored , no name");
-					
-				}
-			} else
-				if($this->verbose) $this->dumpContent($fields,"FDF has no fields",false);
-			
-			if($this->verbose) $this->dumpContent($fields,"FDF parsed",false);
-			
-			return $fields;
-		}
-		
-		
+        function parseFDFContent(){
+        //-------------------------
+
+            $content=$this->fdf_content;
+            $content=$this->_protectContentValues($content);//protect ( ) that may be in value or names...
+            $fields=array();
+
+            if($this->verbose) $this->dumpEntries($content,"FDF parse");
+
+           //..so that this regexp can do its job without annoyances
+            if(preg_match_all("/(T|V)\s*\(([^\)]+)\)\s*\/(T|V)\s*\(([^\)]+)\)/", $content,$matches, PREG_PATTERN_ORDER)) {
+
+                $fMax=count($matches[0]);
+                for($f=0;$f<$fMax;$f++) {
+                    $value='';
+                    $name='';
+                    if($matches[1][$f]==="V") {
+                        $value=$matches[2][$f];
+                        if($matches[3][$f]==="T")
+                            $name=$matches[4][$f];
+                        else
+                            $this->Error("Field $f ignored , incomplete field declaration, name is expected");
+                    } else {
+                        if($matches[1][$f]==="T") {
+                            $name=$matches[2][$f];
+                            if($matches[3][$f]==="V")
+                                $value=$matches[4][$f];
+                            else
+                                $this->Error("Field $f ignored , incomplete field declaration, value is expected");
+                        } else
+                            $this->Error("Field $f ignored , Invalid field keys ({$matches[0][$f]})");
+                    }
+                    if($name!='') {
+                        if(array_key_exists($name,$fields))
+                             $this->Error("Field $f ignored , already defined");
+                        else {
+                            $name=$this->_unprotectContentValues($name);
+                            $value=$this->_unprotectContentValues($value);
+                            if($this->verbose)
+                                $this->dumpContent("FDF field [$name] has its value set to \"$value\"");
+                            $fields[$name]=$value;
+                        }
+                    } else
+                        $this->Error("Field $f ignored , no name");
+
+                }
+            } else
+                if($this->verbose) $this->dumpContent($fields,"FDF has no fields",false);
+
+            if($this->verbose) $this->dumpContent($fields,"FDF parsed",false);
+
+            return $fields;
+        }
+
+
         /**
          * Close the opened file
          */
