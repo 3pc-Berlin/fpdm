@@ -96,9 +96,7 @@
 
         $dircmd=fix_path(dirname(__file__));
 
-        //check also for local installation file_exists() and is_link() may not work
-        $pdftk_local=trim(shell_exec("eval cd " . trim(shell_exec("eval echo ~$(whoami)")) . "/home/*/.local/bin/ && pwd")) . "/" . $cmd;
-        if(!empty($pdftk=trim(shell_exec(sprintf("which %s", $cmd))))||!empty($pdftk = $pdftk_local)) {
+        if(!empty($pdftk=trim(shell_exec(sprintf("which %s", $cmd))))) {
 
 
             $pdf_out=FPDM_CACHE."pdf_flatten.pdf";
